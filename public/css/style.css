@@ -61,3 +61,17 @@ button {
 button:hover{
     transform: scale(0.9);
 }
+
+#err-msg{
+    color: red;
+    font-size: 14px;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    word-spacing: 2px;
+    margin-left: 10px;
+}
+
+#succ-msg{
+    color: green;
+    text-transform: capitalize;
+}
