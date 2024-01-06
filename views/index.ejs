@@ -8,19 +8,28 @@
 </head>
 <body>
     <div class="container">
-        <h2>User Registration</h2>
-        <form action="/register" method="post">
-            <label for="username">Username :</label>
-            <input type="text" id="username" name="username" required>
-
-            <label for="email">Email :</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="password">Password :</label>
-            <input type="password" id="password" name="password" required>
-
-            <button type="submit">Register</button>
-        </form>
+        <% if(locals.status) { %>
+         <h2 id="succ-msg"><%=msg  %></h2>
+        <% } %>
+        <% if (!locals.status) { %>
+            <h2>User Registration</h2>
+        <% } %>
+        <% if (!locals.status) { %>
+            <form action="/register" method="post">
+                <label for="username">Username :</label>
+                <input type="text" id="username" name="username" required>
+    
+                <label for="email">Email :</label>
+                <input type="email" id="email" name="email" required>
+    
+                <label for="password">Password :</label>
+                <input type="password" id="password" name="password" required>
+    
+                <button type="submit">Register</button>
+                <p id="err-msg"><%= locals.msg %></p>
+            </form>
+         
+        <% } %>
     </div>
 </body>
 </html>
