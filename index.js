@@ -46,14 +46,37 @@ app.get('/', (req, res) => {
 
 // Handle registration form submission
 app.post('/register', async(req, res) => {
-    const newUser = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
-    });
-    const savedata=await newUser.save()
-    console.log(savedata)
-    res.send({msg:'resgiter successful'})
+    try {
+        const{username,email,password}=req.body;
+        if(username,email,password){
+            const existEmail=await User.findOne({email})
+            if(existEmail) return res.render('index',{msg:'email already taken',status:false})
+            if (
+                password.length >= 8 &&
+                /[A-Z]/.test(password) &&
+                /[0-9]/.test(password) &&
+                /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(password)
+              ) {
+                const newUser = new User({
+                    username,
+                    email,
+                    password
+                });
+                const savedata=await newUser.save()
+                console.log(savedata)
+                res.render('index',{msg:'registration successfull', status:true})
+                
+              }else{
+                res.render('index',{msg:'password invalid',status:false})
+              }
+        }else{
+            res.render('index',{msg:'all fileds are required',status:false})
+        }
+    } catch (error) {
+        console.log(`registration failed : ${error.message}`)
+        res.render('index',{msg:"something went wrong please try again later"})
+    }
+  
 
     
 });
@@ -61,5 +84,5 @@ app.post('/register', async(req, res) => {
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-    // dbConnection(DB_URI)
+    dbConnection(DB_URI)
 });
